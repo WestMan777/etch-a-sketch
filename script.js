@@ -3,6 +3,8 @@ const clearButton = document.querySelector('#remove-button');
 const drawButton = document.querySelector('#draw-button');
 const eraseButton = document.querySelector('#erase-button');
 
+
+
 function addGrid(){
     const canvasContainer = document.querySelector('#canvas-container');
 
@@ -14,21 +16,44 @@ function addGrid(){
 
     if(gridCount <= 100){
         for(let i = 0; i < gridCount; i++){
+            let rowNumber = i;
             const newRow = document.createElement('div');
+
             newRow.classList.add('grid-row');
             newRow.classList.add('container');
+            newRow.setAttribute('id', 'row' + [i]);
 
             for(let i = 0; i < gridCount; i++){
-                const newColumn = document.createElement('div');
-                newColumn.setAttribute('id', 'box');
-                newColumn.classList.add('grid-column');
+                const newBox = document.createElement('div');
 
-                newRow.appendChild(newColumn);
+                newBox.classList.add('box');
+                newBox.setAttribute('id', 'collumn' + [i] + 'row' + [rowNumber]);
+
+                newRow.appendChild(newBox);
             }
-
+            
             newGrid.appendChild(newRow);
         }
         canvasContainer.appendChild(newGrid);
+
+        
+
+
+
+        canvasContainer.addEventListener('mouseover', function(e){
+            
+            for(let i = 0; i < gridCount; i++){
+                let rowNumber = i;
+
+                for(let i = 0; i < gridCount; i++){
+                    let boxCollumn = document.getElementById('collumn' + [i] + 'row' + [rowNumber]);
+
+                    boxCollumn.addEventListener('mouseover', function(){
+                        boxCollumn.style.backgroundColor = '#000';
+                    });
+                }
+            }
+        });
     }
     else{
         alert('grid count must be less than 100!');
@@ -42,22 +67,5 @@ function clearGrid(){
     canvasContainer.removeChild(childGrid);
 }
 
-const canvasContainer = document.querySelector('#canvas-container');
-
-
-
-
-function colorBox(){
-    const box = document.querySelector('#box');
-
-    box.addEventListener("click", () => {
-        alert("eerm");
-    });
-
-    
-    //box.classList.add('.grid-color-black');
-}
-
-canvasContainer.addEventListener('mouseover', colorBox);
 addButton.addEventListener('click', addGrid);
 clearButton.addEventListener('click', clearGrid);
